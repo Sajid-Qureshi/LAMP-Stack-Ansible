@@ -1,0 +1,43 @@
+---
+- name: add mariadb repository
+  shell: curl -sS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | bash warn=False
+
+- name: install mariadb
+  package:
+    name: {{ item }}
+    state: present
+  with_items:
+    - mariadb-server
+    - libmysqlclient-dev
+    - gcc
+    - python3-dev
+
+- name: service
+  service:
+    name: mariadb
+    state: started
+    enabled: yes
+
+- name: install pip
+  shell: curl https://bootstrap.pypa.io/get-pip.py | python3 warn=False
+
+- name: install python MySQL client
+  pip:
+    name:
+      - setuptools
+      - mysqlclient
+    state: latest
+
+- name: Create a new database
+  mysql_db:
+    name: demo
+    state: present
+
+- name: Create a database user
+  mysql_user:
+    name: demo_user
+    password: demo_pass priv=*.*:ALL host=localhost state=present
+   
+   
+- name: restart mariadb   
+  meta: flush_handlers

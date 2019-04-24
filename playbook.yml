@@ -1,0 +1,11 @@
+---
+- hosts: all
+  tasks:
+    - name: update system
+      apt:
+        upgrade: yes
+        update_cache: yes
+  roles:
+    - apache      
+    - mariadb
+    - php
