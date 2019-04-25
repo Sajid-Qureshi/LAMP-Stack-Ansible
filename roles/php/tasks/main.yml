@@ -7,7 +7,7 @@
      update_cache: yes
 - name: installing php
   package: 
-    name: {{ item }}
+    name: "{{ item }}"
     state: present
   with_items:
     - php7.2

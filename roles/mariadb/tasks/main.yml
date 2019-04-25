@@ -4,7 +4,7 @@
 
 - name: install mariadb
   package:
-    name: {{ item }}
+    name: "{{ item }}"
     state: present
   with_items:
     - mariadb-server
@@ -21,11 +21,9 @@
 - name: install pip
   shell: curl https://bootstrap.pypa.io/get-pip.py | python3 warn=False
 
-- name: install python MySQL client
-  pip:
-    name:
-      - setuptools
-      - mysqlclient
+- name: Install Python MySQLdb
+  apt: 
+    name: python-mysqldb 
     state: latest
 
 - name: Create a new database
@@ -41,3 +39,4 @@
    
 - name: restart mariadb   
   meta: flush_handlers
+  
